@@ -10,15 +10,14 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 #pin 20 for button
 GPIO.setup(20,GPIO.IN,pull_up_down=GPIO.PUD_UP)
-
 # Create a LSM303 instance.
 lsm303 = Adafruit_LSM303.LSM303()
 
-#making csv file for data collection
-#now = datetime.now()
-#file_name = str(now.strftime("%m-%d_%H:%M:%S")) + ".csv"
-#os.mknod(file_name)
-file_name = "no_touch_face.csv"
+#csv data
+file_name = "Movement_data.csv"
+#Label for data
+#Change to 1 if touched and 0 if not touched
+touched = 0
 
 #find magnitude of acceleration vector
 def magnitude(current,previous):
@@ -54,7 +53,7 @@ while True:
                 with open(file_name,mode='a+') as movement_data:
                     writer = csv.writer(movement_data,delimiter=',')
                     #storing data from average_movement into csv
-                    writer.writerow([str(average_movement[0]),str(average_movement[1]),str(average_movement[2]),str(average_movement[3]),str(average_movement[4]),str(average_movement[5])])
+                    writer.writerow([str(average_movement[0]),str(average_movement[1]),str(average_movement[2]),str(average_movement[3]),str(average_movement[4]),str(average_movement[5]),str(touched)])
                     movement_data.close()
                 print("Saved")
                 #clear movement array for next move
